@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Clipboard = System.Windows.Clipboard;
@@ -24,29 +24,30 @@ public partial class MainWindow : Window
         _allItems.Clear();
 
         // Text transforms (require clipboard content)
-        _allItems.Add(new PasteItem { Label = "to_snake_case",        GetResult = TextTransformService.ToSnakeCase });
-        _allItems.Add(new PasteItem { Label = "ToUpperCamelCase",     GetResult = TextTransformService.ToPascalCase });
-        _allItems.Add(new PasteItem { Label = "toLowerCamelCase",     GetResult = TextTransformService.ToCamelCase });
-        _allItems.Add(new PasteItem { Label = "TO_UPPER_SNAKE_CASE",  GetResult = TextTransformService.ToUpperSnakeCase });
-        _allItems.Add(new PasteItem { Label = "to-kebab-case",        GetResult = TextTransformService.ToKebabCase });
-        _allItems.Add(new PasteItem { Label = "Sort Lines A→Z",       GetResult = TextTransformService.SortLinesAscending });
-        _allItems.Add(new PasteItem { Label = "Sort Lines Z→A",       GetResult = TextTransformService.SortLinesDescending });
-        _allItems.Add(new PasteItem { Label = "Unique Lines",         GetResult = TextTransformService.UniqueLines });
-        _allItems.Add(new PasteItem { Label = "Trim Lines",           GetResult = TextTransformService.TrimLines });
+        _allItems.Add(new PasteItem { Label = "to_snake_case", GetResult = TextTransformService.ToSnakeCase });
+        _allItems.Add(new PasteItem { Label = "ToUpperCamelCase", GetResult = TextTransformService.ToPascalCase });
+        _allItems.Add(new PasteItem { Label = "toLowerCamelCase", GetResult = TextTransformService.ToCamelCase });
+        _allItems.Add(
+            new PasteItem { Label = "TO_UPPER_SNAKE_CASE", GetResult = TextTransformService.ToUpperSnakeCase });
+        _allItems.Add(new PasteItem { Label = "to-kebab-case", GetResult = TextTransformService.ToKebabCase });
+        _allItems.Add(new PasteItem { Label = "Sort Lines A→Z", GetResult = TextTransformService.SortLinesAscending });
+        _allItems.Add(new PasteItem { Label = "Sort Lines Z→A", GetResult = TextTransformService.SortLinesDescending });
+        _allItems.Add(new PasteItem { Label = "Unique Lines", GetResult = TextTransformService.UniqueLines });
+        _allItems.Add(new PasteItem { Label = "Trim Lines", GetResult = TextTransformService.TrimLines });
 
         // Time inserts (ignore clipboard)
         var timeFmts = new (string label, string fmt)[]
         {
-            ("Now: yyyy_MM_dd",              "yyyy_MM_dd"),
-            ("Now: yyyy-MM-dd",              "yyyy-MM-dd"),
-            ("Now: yyyy-MM-dd HH:mm:ss",     "yyyy-MM-dd HH:mm:ss"),
-            ("Now: yyyyMMdd_HHmmss",         "yyyyMMdd_HHmmss"),
-            ("Now: yyyyMMddHHmmss",          "yyyyMMddHHmmss"),
-            ("Now: HH:mm:ss",                "HH:mm:ss"),
-            ("Now: HH:mm",                   "HH:mm"),
-            ("Now: yyyy/MM/dd",              "yyyy/MM/dd"),
-            ("Now: dd/MM/yyyy",              "dd/MM/yyyy"),
-            ("Now: MMM dd, yyyy",            "MMM dd, yyyy"),
+            ("Now: yyyy_MM_dd", "yyyy_MM_dd"),
+            ("Now: yyyy-MM-dd", "yyyy-MM-dd"),
+            ("Now: yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss"),
+            ("Now: yyyyMMdd_HHmmss", "yyyyMMdd_HHmmss"),
+            ("Now: yyyyMMddHHmmss", "yyyyMMddHHmmss"),
+            ("Now: HH:mm:ss", "HH:mm:ss"),
+            ("Now: HH:mm", "HH:mm"),
+            ("Now: yyyy/MM/dd", "yyyy/MM/dd"),
+            ("Now: dd/MM/yyyy", "dd/MM/yyyy"),
+            ("Now: MMM dd, yyyy", "MMM dd, yyyy"),
         };
 
         foreach (var (label, fmt) in timeFmts)
@@ -81,12 +82,18 @@ public partial class MainWindow : Window
         FilterBox.Text = "";
         ApplyFilter("");
 
-        // Position at cursor (clamped to work area)
-        NativeMethods.GetCursorPos(out var cursor);
+        // Position at center of the previous window, clamped to work area
         var area = SystemParameters.WorkArea;
-        Left = Math.Min(cursor.X, area.Right - Width - 8);
-        Top  = Math.Min(cursor.Y, area.Bottom - 8) - ActualHeight;  // show above cursor if possible
-        if (Top < area.Top) Top = cursor.Y + 16;
+        double centerX = area.Left + area.Width / 2;
+        double centerY = area.Top + area.Height / 2;
+        if (NativeMethods.GetWindowRect(_previousWindow, out var rect))
+        {
+            centerX = rect.Left + rect.Width / 2.0;
+            centerY = rect.Top + rect.Height / 2.0;
+        }
+
+        Left = (centerX - Width / 2);
+        Top = (centerY - ActualHeight / 2);
 
         Show();
         Activate();
@@ -124,23 +131,23 @@ public partial class MainWindow : Window
     {
         switch (e.Key)
         {
-            case Key.Down:
-                MoveSelection(1);
-                e.Handled = true;
-                break;
-            case Key.Up:
-                MoveSelection(-1);
-                e.Handled = true;
-                break;
-            case Key.Enter:
-                if (ItemList.SelectedItem is PasteItem item)
-                    ExecuteItem(item);
-                e.Handled = true;
-                break;
-            case Key.Escape:
-                HidePopup();
-                e.Handled = true;
-                break;
+        case Key.Down:
+            MoveSelection(1);
+            e.Handled = true;
+            break;
+        case Key.Up:
+            MoveSelection(-1);
+            e.Handled = true;
+            break;
+        case Key.Enter:
+            if (ItemList.SelectedItem is PasteItem item)
+                ExecuteItem(item);
+            e.Handled = true;
+            break;
+        case Key.Escape:
+            HidePopup();
+            e.Handled = true;
+            break;
         }
     }
 
@@ -148,15 +155,15 @@ public partial class MainWindow : Window
     {
         switch (e.Key)
         {
-            case Key.Enter:
-                if (ItemList.SelectedItem is PasteItem item)
-                    ExecuteItem(item);
-                e.Handled = true;
-                break;
-            case Key.Escape:
-                HidePopup();
-                e.Handled = true;
-                break;
+        case Key.Enter:
+            if (ItemList.SelectedItem is PasteItem item)
+                ExecuteItem(item);
+            e.Handled = true;
+            break;
+        case Key.Escape:
+            HidePopup();
+            e.Handled = true;
+            break;
         }
     }
 
