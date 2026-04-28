@@ -1,0 +1,31 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+    <linearGradient id="paper" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F1F5F9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Board -->
+  <rect x="40" y="32" width="176" height="208" rx="24" fill="url(#bg)" />
+  
+  <!-- Paper -->
+  <rect x="64" y="80" width="128" height="144" rx="8" fill="url(#paper)" />
+  
+  <!-- Clip -->
+  <path d="M96 24H160C168.837 24 176 31.1634 176 40V64H80V40C80 31.1634 87.1634 24 96 24Z" fill="#1E293B" />
+  <circle cx="128" cy="44" r="8" fill="#475569" />
+  
+  <!-- Text Lines on Paper -->
+  <rect x="88" y="112" width="80" height="8" rx="4" fill="#CBD5E1" />
+  <rect x="88" y="144" width="80" height="8" rx="4" fill="#CBD5E1" />
+  <rect x="88" y="176" width="48" height="8" rx="4" fill="#CBD5E1" />
+  
+  <!-- Sparkles / Magic for "Ultra" -->
+  <path d="M200 48L204 32L220 28L204 24L200 8L196 24L180 28L196 32L200 48Z" fill="#FBBF24" />
+  <path d="M48 100L50 92L58 90L50 88L48 80L46 88L38 90L46 92L48 100Z" fill="#60A5FA" />
+</svg>

@@ -32,16 +32,43 @@
             <!-- Header -->
             <Grid Grid.Row="0" Margin="12,10,12,4">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
+
+                <!-- Icon -->
+                <Viewbox Grid.Column="0" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center">
+                    <Canvas Width="256" Height="256">
+                        <Canvas.Resources>
+                            <LinearGradientBrush x:Key="bg" StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#4F46E5" Offset="0"/>
+                                <GradientStop Color="#EC4899" Offset="1"/>
+                            </LinearGradientBrush>
+                            <LinearGradientBrush x:Key="paper" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FFFFFF" Offset="0"/>
+                                <GradientStop Color="#F1F5F9" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Canvas.Resources>
+                        <Rectangle Canvas.Left="40" Canvas.Top="32" Width="176" Height="208" RadiusX="24" RadiusY="24" Fill="{StaticResource bg}"/>
+                        <Rectangle Canvas.Left="64" Canvas.Top="80" Width="128" Height="144" RadiusX="8" RadiusY="8" Fill="{StaticResource paper}"/>
+                        <Path Data="M96 24H160C168.837 24 176 31.1634 176 40V64H80V40C80 31.1634 87.1634 24 96 24Z" Fill="#1E293B"/>
+                        <Ellipse Canvas.Left="120" Canvas.Top="36" Width="16" Height="16" Fill="#475569"/>
+                        <Rectangle Canvas.Left="88" Canvas.Top="112" Width="80" Height="8" RadiusX="4" RadiusY="4" Fill="#CBD5E1"/>
+                        <Rectangle Canvas.Left="88" Canvas.Top="144" Width="80" Height="8" RadiusX="4" RadiusY="4" Fill="#CBD5E1"/>
+                        <Rectangle Canvas.Left="88" Canvas.Top="176" Width="48" Height="8" RadiusX="4" RadiusY="4" Fill="#CBD5E1"/>
+                        <Path Data="M200 48L204 32L220 28L204 24L200 8L196 24L180 28L196 32L200 48Z" Fill="#FBBF24"/>
+                        <Path Data="M48 100L50 92L58 90L50 88L48 80L46 88L38 90L46 92L48 100Z" Fill="#60A5FA"/>
+                    </Canvas>
+                </Viewbox>
+
+                <TextBlock Grid.Column="1"
                            Text="UltraPaste"
-                           FontSize="11"
+                           FontSize="12"
                            FontWeight="SemiBold"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                            VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1"
+                <TextBlock Grid.Column="2"
                            Text="Ctrl+Alt+Shift+V"
                            FontSize="10"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"

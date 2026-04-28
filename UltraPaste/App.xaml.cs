@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using Application = System.Windows.Application;
@@ -31,7 +31,7 @@ public partial class App : Application
     {
         _trayIcon = new NotifyIcon
         {
-            Icon = SystemIcons.Application,
+            Icon = Icon.ExtractAssociatedIcon(Environment.ProcessPath!),
             Visible = true,
             Text = "UltraPaste (Ctrl+Alt+Shift+V)"
         };
