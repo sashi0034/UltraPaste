@@ -62,12 +62,16 @@
                     </Canvas>
                 </Viewbox>
 
-                <TextBlock Grid.Column="1"
-                           Text="UltraPaste"
-                           FontSize="12"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                           VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="UltraPaste"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    <TextBlock x:Name="ClipboardInfoText"
+                               Margin="8,0,0,0"
+                               FontSize="11"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"/>
+                </StackPanel>
                 <TextBlock Grid.Column="2"
                            Text="Ctrl+Alt+Shift+V"
                            FontSize="10"

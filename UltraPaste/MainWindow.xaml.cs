@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Clipboard = System.Windows.Clipboard;
@@ -68,6 +68,19 @@ public partial class MainWindow : Window
         });
     }
 
+    private void UpdateClipboardInfo(string? clipText)
+    {
+        if (string.IsNullOrEmpty(clipText))
+        {
+            ClipboardInfoText.Text = "";
+            return;
+        }
+
+        int charCount = clipText.Length;
+        int lineCount = clipText.Replace("\r\n", "\n").Split('\n').Length;
+        ClipboardInfoText.Text = $"{charCount} chars, {lineCount} lines";
+    }
+
     public void ShowAtCursor()
     {
         // Capture previous window BEFORE we steal focus
@@ -77,6 +90,8 @@ public partial class MainWindow : Window
         string? clipText = Clipboard.ContainsText() ? Clipboard.GetText() : null;
         foreach (var item in _allItems)
             item.RefreshPreview(clipText);
+
+        UpdateClipboardInfo(clipText);
 
         // Reset filter and populate list
         FilterBox.Text = "";
